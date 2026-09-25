@@ -12,10 +12,10 @@
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold">Analytics Dashboard</h1>
             <div class="space-x-4">
-                <a href="/" class="hover:underline">Employee</a>
-                <a href="/manager.html" class="hover:underline">Manager</a>
-                <a href="/it.html" class="hover:underline">IT Support</a>
-                <a href="/dashboard.html" class="hover:underline font-bold underline">Dashboard</a>
+                <a href="index.html" class="hover:underline">Employee</a>
+                <a href="manager.html" class="hover:underline">Manager</a>
+                <a href="it.html" class="hover:underline">IT Support</a>
+                <a href="dashboard.html" class="hover:underline font-bold underline">Dashboard</a>
             </div>
         </div>
     </nav>
@@ -57,10 +57,23 @@
         </div>
     </div>
 
+    <script src="app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const res = await fetch('/api/stats');
-            const stats = await res.json();
+        document.addEventListener('DOMContentLoaded', () => {
+            const db = typeof getDB === 'function' ? getDB() : { requests: [] };
+            
+            const stats = {
+                total: db.requests.length,
+                pending: db.requests.filter(r => ['Manager Approval', 'IT Approval'].includes(r.state)).length,
+                inProgress: db.requests.filter(r => r.state === 'In Progress').length,
+                completed: db.requests.filter(r => r.state === 'Closed' || r.state === 'Installed').length,
+                rejected: db.requests.filter(r => r.state === 'Rejected').length,
+                softwareCounts: {}
+            };
+
+            db.requests.forEach(r => {
+                stats.softwareCounts[r.software] = (stats.softwareCounts[r.software] || 0) + 1;
+            });
 
             document.getElementById('stat-total').innerText = stats.total;
             document.getElementById('stat-pending').innerText = stats.pending;

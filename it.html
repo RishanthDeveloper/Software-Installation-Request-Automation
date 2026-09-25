@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Fulfillment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <nav class="bg-purple-600 p-4 text-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">IT Support Portal</h1>
+            <div class="space-x-4">
+                <a href="index.html" class="hover:underline">Employee</a>
+                <a href="manager.html" class="hover:underline">Manager</a>
+                <a href="it.html" class="hover:underline font-bold underline">IT Support</a>
+                <a href="dashboard.html" class="hover:underline">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <h2 class="text-2xl font-bold mb-4">IT Tasks & Approvals</h2>
+        
+        <h3 class="text-xl font-semibold mt-6 mb-2">Pending IT Approvals</h3>
+        <div id="itApprovalList" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"></div>
+
+        <h3 class="text-xl font-semibold mt-6 mb-2">In Progress (Fulfillment)</h3>
+        <div id="itFulfillmentList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRoleRequests('IT Approval', 'itApprovalList', 'IT');
+            loadFulfillmentRequests();
+        });
+    </script>
+</body>
+</html>
