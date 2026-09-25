@@ -19,6 +19,13 @@ function TrackerMock() {
   const [activeStep, setActiveStep] = useState(0)
 
   useEffect(() => {
+    // Check for reduced motion
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) {
+      setActiveStep(states.length - 1)
+      return
+    }
+
     // Deliberate motion: animate through states on load
     const timer = setInterval(() => {
       setActiveStep(prev => (prev < states.length - 1 ? prev + 1 : prev))
@@ -91,11 +98,11 @@ export default function LandingPage() {
               Drop the email chains and Slack pings. Request tools, get automatic multi-tier approvals, and track SLAs instantly.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href="/requests/new" className="inline-flex items-center justify-center bg-primary text-primary-foreground font-medium h-12 px-6 rounded-md shadow-sm hover:bg-primary/90 transition-colors">
+              <Link href="/requests/new" className="inline-flex items-center justify-center bg-primary text-primary-foreground font-medium h-12 px-6 rounded-md shadow-sm hover:bg-primary/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
                 Request software
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Link>
-              <Link href="#how-it-works" className="inline-flex items-center justify-center bg-transparent border border-input text-foreground font-medium h-12 px-6 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors">
+              <Link href="#how-it-works" className="inline-flex items-center justify-center bg-transparent border border-input text-foreground font-medium h-12 px-6 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
                 See how it works
               </Link>
             </div>

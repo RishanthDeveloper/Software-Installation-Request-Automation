@@ -59,3 +59,26 @@ A full-stack web application simulating an automated Service Catalog workflow. E
 
 ---
 *Created by [RishanthDeveloper](https://github.com/RishanthDeveloper)*
+
+## Frontend (Next.js)
+
+A modern, startup-quality frontend is built using Next.js 14 (App Router) in the /frontend directory. It sits on top of the ServiceNow REST APIs and replaces the legacy Service Portal widgets.
+
+### Local Setup for Frontend
+
+1. Ensure you have Node.js installed.
+2. Navigate to the frontend directory: `cd frontend`
+3. Install dependencies: `npm install`
+4. Copy `.env.local.example` to `.env.local` and add your ServiceNow credentials:
+   ```
+   NEXT_PUBLIC_SN_INSTANCE_URL=https://your-instance.service-now.com
+   SN_CLIENT_ID=your_oauth_client_id
+   SN_CLIENT_SECRET=your_oauth_client_secret
+   NEXTAUTH_SECRET=a_random_secret_string
+   NEXTAUTH_URL=http://localhost:3000
+   ```
+5. Run the development server: `npm run dev`
+
+### Relation to Backend
+The frontend is completely decoupled from the ServiceNow backend but relies on it for data persistence, Flow Designer automation, and Access Control Lists (ACLs). The frontend talks to the ServiceNow Table API and custom Scripted REST APIs (for dashboard stats). All SLA timers and license validations still happen securely on the ServiceNow server.
+

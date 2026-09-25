@@ -113,7 +113,7 @@ export default function NewRequestPage() {
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
             <div>
               <label className="block text-sm font-medium mb-2">Software Catalog</label>
-              <select {...register("softwareId")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm">
+              <select {...register("softwareId")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                 <option value="">-- Select Software --</option>
                 {MOCK_CATALOG.map(s => (
                   <option key={s.id} value={s.id}>{s.name}</option>
@@ -125,7 +125,7 @@ export default function NewRequestPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Installation Type</label>
-                <select {...register("installType")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm">
+                <select {...register("installType")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                   <option value="new">New Installation</option>
                   <option value="upgrade">Upgrade</option>
                   <option value="reinstall">Reinstall / Repair</option>
@@ -133,7 +133,7 @@ export default function NewRequestPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Version</label>
-                <input type="text" {...register("version")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm" placeholder="e.g. Latest, 2024.1" />
+                <input type="text" {...register("version")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" placeholder="e.g. Latest, 2024.1" />
                 {errors.version && <p className="text-destructive text-sm mt-1">{errors.version.message}</p>}
               </div>
             </div>
@@ -151,7 +151,7 @@ export default function NewRequestPage() {
               </label>
               <textarea 
                 {...register("justification")} 
-                className="w-full p-3 border border-input rounded-md bg-background text-sm min-h-[100px]"
+                className="w-full p-3 border border-input rounded-md bg-background text-sm min-h-[100px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                 placeholder="Why do you need this software? Be specific."
               />
               {errors.justification && <p className="text-destructive text-sm mt-1">{errors.justification.message}</p>}
@@ -160,7 +160,7 @@ export default function NewRequestPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Urgency</label>
-                <select {...register("urgency")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm">
+                <select {...register("urgency")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
                   <option value="low">Low (2 Business Days)</option>
                   <option value="medium">Medium (1 Business Day)</option>
                   <option value="high">High (8 Hours)</option>
@@ -169,14 +169,14 @@ export default function NewRequestPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Required By Date</label>
-                <input type="date" {...register("requiredBy")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm" />
+                <input type="date" {...register("requiredBy")} className="w-full h-10 px-3 border border-input rounded-md bg-background text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
                 {errors.requiredBy && <p className="text-destructive text-sm mt-1">{errors.requiredBy.message}</p>}
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">Additional Comments (Optional)</label>
-              <textarea {...register("comments")} className="w-full p-3 border border-input rounded-md bg-background text-sm" />
+              <textarea {...register("comments")} className="w-full p-3 border border-input rounded-md bg-background text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
             </div>
           </div>
         )}
