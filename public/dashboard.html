@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <nav class="bg-gray-800 p-4 text-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">Analytics Dashboard</h1>
+            <div class="space-x-4">
+                <a href="/" class="hover:underline">Employee</a>
+                <a href="/manager.html" class="hover:underline">Manager</a>
+                <a href="/it.html" class="hover:underline">IT Support</a>
+                <a href="/dashboard.html" class="hover:underline font-bold underline">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-6">
+        <!-- Scorecards -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div class="bg-white p-4 rounded shadow text-center">
+                <p class="text-gray-500 text-sm font-bold">Total Requests</p>
+                <p class="text-3xl font-bold text-gray-800" id="stat-total">0</p>
+            </div>
+            <div class="bg-white p-4 rounded shadow text-center">
+                <p class="text-gray-500 text-sm font-bold">Pending Approvals</p>
+                <p class="text-3xl font-bold text-yellow-600" id="stat-pending">0</p>
+            </div>
+            <div class="bg-white p-4 rounded shadow text-center">
+                <p class="text-gray-500 text-sm font-bold">In Progress</p>
+                <p class="text-3xl font-bold text-blue-600" id="stat-progress">0</p>
+            </div>
+            <div class="bg-white p-4 rounded shadow text-center">
+                <p class="text-gray-500 text-sm font-bold">Completed</p>
+                <p class="text-3xl font-bold text-green-600" id="stat-completed">0</p>
+            </div>
+            <div class="bg-white p-4 rounded shadow text-center">
+                <p class="text-gray-500 text-sm font-bold">Rejected</p>
+                <p class="text-3xl font-bold text-red-600" id="stat-rejected">0</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-bold mb-4 text-center">Requests by Software</h3>
+                <canvas id="softwareChart"></canvas>
+            </div>
+            <div class="bg-white p-4 rounded shadow">
+                <h3 class="font-bold mb-4 text-center">Request Status Breakdown</h3>
+                <canvas id="statusChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const res = await fetch('/api/stats');
+            const stats = await res.json();
+
+            document.getElementById('stat-total').innerText = stats.total;
+            document.getElementById('stat-pending').innerText = stats.pending;
+            document.getElementById('stat-progress').innerText = stats.inProgress;
+            document.getElementById('stat-completed').innerText = stats.completed;
+            document.getElementById('stat-rejected').innerText = stats.rejected;
+
+            // Software Chart (Bar)
+            new Chart(document.getElementById('softwareChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(stats.softwareCounts),
+                    datasets: [{
+                        label: '# of Requests',
+                        data: Object.values(stats.softwareCounts),
+                        backgroundColor: '#3b82f6'
+                    }]
+                }
+            });
+
+            // Status Chart (Pie)
+            new Chart(document.getElementById('statusChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Pending', 'In Progress', 'Completed', 'Rejected'],
+                    datasets: [{
+                        data: [stats.pending, stats.inProgress, stats.completed, stats.rejected],
+                        backgroundColor: ['#ca8a04', '#2563eb', '#16a34a', '#dc2626']
+                    }]
+                }
+            });
+        });
+    </script>
+</body>
+</html>

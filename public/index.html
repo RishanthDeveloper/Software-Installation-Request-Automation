@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Installation Request</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <nav class="bg-blue-600 p-4 text-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">ServiceNow Simulator</h1>
+            <div class="space-x-4">
+                <a href="/" class="hover:underline">Employee</a>
+                <a href="/manager.html" class="hover:underline">Manager</a>
+                <a href="/it.html" class="hover:underline">IT Support</a>
+                <a href="/dashboard.html" class="hover:underline">Dashboard</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-6 flex flex-col md:flex-row gap-6">
+        <!-- Request Form -->
+        <div class="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">Submit Software Request</h2>
+            <form id="requestForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Employee Name</label>
+                    <input type="text" id="employee" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" value="Jane Doe">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Department</label>
+                    <select id="department" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                        <option>Engineering</option>
+                        <option>Marketing</option>
+                        <option>Finance</option>
+                        <option>HR</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Software Name</label>
+                    <select id="software" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                        <option>Visual Studio Code</option>
+                        <option>Python</option>
+                        <option>Adobe Photoshop</option>
+                        <option>IntelliJ IDEA</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Version</label>
+                    <input type="text" id="version" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" value="Latest">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Installation Type</label>
+                    <select id="type" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                        <option>New Installation</option>
+                        <option>Upgrade</option>
+                        <option>Repair</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Business Justification</label>
+                    <textarea id="justification" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" rows="3"></textarea>
+                    <p class="text-xs text-gray-500 mt-1">Note: Adobe Photoshop requires min 20 chars.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Urgency</label>
+                    <select id="urgency" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                        <option>Low (2 Business Days)</option>
+                        <option>Medium (1 Business Day)</option>
+                        <option>High (8 Hours)</option>
+                        <option>Critical (4 Hours)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Required By Date</label>
+                    <input type="date" id="requiredBy" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Submit Request</button>
+                <div id="formMsg" class="mt-2 text-sm font-bold"></div>
+            </form>
+        </div>
+
+        <!-- Request Tracking -->
+        <div class="w-full md:w-1/2 bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-4">My Requests Tracking</h2>
+            <div class="flex items-center space-x-2 mb-4">
+                <input type="text" id="searchUser" class="border border-gray-300 rounded-md shadow-sm p-2 w-full" value="Jane Doe" placeholder="Enter Employee Name">
+                <button onclick="loadMyRequests()" class="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700">Load</button>
+            </div>
+            <div id="requestList" class="space-y-4 max-h-[600px] overflow-y-auto">
+                <!-- Requests injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+    <script>
+        // Set default date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('requiredBy').value = tomorrow.toISOString().split('T')[0];
+    </script>
+</body>
+</html>
