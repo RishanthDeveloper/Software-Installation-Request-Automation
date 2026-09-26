@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useStore } from '../lib/requestsStore';
-import { CheckCircle } from 'lucide-react';
+import { StatusStamp } from '../components/StatusStamp';
 
 const Queue = () => {
   const { requests, updateRequestStatus } = useStore();
@@ -17,54 +17,67 @@ const Queue = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-full flex flex-col">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-1">Fulfillment Queue</h1>
-        <p className="text-muted-foreground">Active software installation tasks.</p>
+    <div className="max-w-5xl mx-auto flex flex-col p-4 md:p-6 lg:p-8">
+      <div className="mb-8 border-b border-line pb-4">
+        <h1 className="mb-2">Fulfillment Manifest</h1>
+        <p className="text-muted text-[15px]">Active software installation tasks in transit.</p>
       </div>
 
-      <div className="flex-1 bg-muted/50 rounded-lg p-4 border border-border">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="font-semibold uppercase tracking-wider text-sm text-muted-foreground">In Progress</h2>
-          <span className="bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded">{inProgress.length}</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {inProgress.map(req => (
-            <div key={req.id} className="flat-panel p-5 border-l-4 border-primary">
-              <div className="flex justify-between items-start mb-2">
-                <span className="text-xs font-mono text-muted-foreground">{req.id}</span>
-                <span className={`text-xs font-bold px-2 py-1 rounded ${req.urgency === 'Critical' ? 'bg-destructive/10 text-destructive' : 'bg-muted text-muted-foreground'}`}>
-                  {req.urgency}
-                </span>
-              </div>
-              <h3 className="font-bold text-lg mb-1">{req.softwareName}</h3>
-              <p className="text-sm text-muted-foreground mb-4">For: <strong className="text-foreground">{req.requester}</strong></p>
-              
-              <div className="text-xs text-muted-foreground bg-muted p-2 rounded mb-4">
-                Target Date: {req.requiredBy}
-              </div>
-
-              {installingId === req.id ? (
-                <div className="flex gap-2">
-                  <button onClick={() => setInstallingId(null)} className="flex-1 py-2 text-sm font-medium hover:bg-muted rounded-md transition-colors">Cancel</button>
-                  <button onClick={() => handleInstall(req.id)} className="flex-1 bg-success text-success-foreground py-2 rounded-md text-sm font-medium hover:bg-success/90 transition-colors flex items-center justify-center gap-2">
-                    <CheckCircle className="w-4 h-4" /> Confirm
-                  </button>
-                </div>
-              ) : (
-                <button onClick={() => setInstallingId(req.id)} className="w-full border border-primary text-primary py-2 rounded-md text-sm font-medium hover:bg-primary hover:text-primary-foreground transition-colors">
-                  Mark Installed
-                </button>
-              )}
-            </div>
-          ))}
-          {inProgress.length === 0 && (
-            <div className="col-span-full p-8 text-center text-muted-foreground bg-card border border-border border-dashed rounded-lg">
-              Queue is empty.
-            </div>
-          )}
-        </div>
+      <div className="flat-panel p-0 overflow-hidden w-full">
+        <table className="ledger-table">
+          <thead>
+            <tr>
+              <th className="w-1"></th>
+              <th>Manifest ID</th>
+              <th>Destination</th>
+              <th>Software</th>
+              <th className="text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {inProgress.map(req => (
+              <tr key={req.id}>
+                <td className="p-0 w-1 relative">
+                  <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-brand"></div>
+                </td>
+                <td>
+                  <div className="font-mono text-ink mb-2">{req.id}</div>
+                  <StatusStamp status={req.status} />
+                </td>
+                <td>
+                  <div className="font-medium text-ink">{req.requester}</div>
+                  <div className="text-[13px] text-muted">Required: <span className="font-mono">{req.requiredBy}</span></div>
+                  <div className="text-[13px] text-muted mt-1 uppercase tracking-widest">{req.urgency}</div>
+                </td>
+                <td>
+                  <div className="font-medium text-ink">{req.softwareName}</div>
+                  <div className="text-[13px] text-muted">v{req.version} - {req.installType}</div>
+                </td>
+                <td className="text-right align-middle">
+                  {installingId === req.id ? (
+                    <div className="flex gap-2 justify-end">
+                      <button onClick={() => setInstallingId(null)} className="btn-secondary">Cancel</button>
+                      <button onClick={() => handleInstall(req.id)} className="bg-cleared text-surface rounded-sm px-4 py-2 font-sans text-[15px] hover:brightness-110 transition-colors border border-cleared">
+                        Confirm Install
+                      </button>
+                    </div>
+                  ) : (
+                    <button onClick={() => setInstallingId(req.id)} className="btn-primary">
+                      Mark Installed
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+            {inProgress.length === 0 && (
+              <tr>
+                <td colSpan={5} className="p-12 text-center text-muted">
+                  Queue is empty.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

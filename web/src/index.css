@@ -4,40 +4,89 @@
 
 @layer base {
   :root {
-    --background: #f8fafc; /* Slate 50 */
-    --foreground: #0f172a; /* Slate 900 */
+    --background: #F2F1EC;
+    --surface: #FFFFFF;
+    --ink: #201F1D;
+    --muted: #6B675F;
+    --line: #DEDBD1;
     
-    --card: #ffffff;
-    --card-foreground: #0f172a;
-
-    --primary: #0d9488; /* Teal 600 */
-    --primary-foreground: #ffffff;
-
-    --muted: #f1f5f9; /* Slate 100 */
-    --muted-foreground: #64748b; /* Slate 500 */
-
-    --border: #e2e8f0; /* Slate 200 */
-
-    --success: #16a34a; /* Green 600 */
-    --warning: #eab308; /* Yellow 500 */
-    --destructive: #dc2626; /* Red 600 */
+    --brand: #23395D;
+    --cleared: #1F6F54;
+    --held: #A9752E;
+    --denied: #A13D3D;
   }
 
   body {
     @apply bg-background text-foreground antialiased font-sans;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight text-ink;
+  }
+
+  /* Type scale */
+  h1 { @apply text-[28px] leading-[34px]; }
+  h2 { @apply text-[20px] leading-[26px]; }
 }
 
 @layer utilities {
   .flat-panel {
-    @apply bg-card border border-border shadow-sm rounded-md;
-  }
-  
-  .left-border-accent {
-    @apply border-l-4 border-l-primary;
+    @apply bg-card border border-border;
   }
 
   .mono-label {
-    @apply font-mono text-sm tracking-wider;
+    @apply font-mono text-[12px] leading-[16px] uppercase tracking-[0.04em];
   }
+
+  /* Buttons */
+  .btn-primary {
+    @apply bg-brand text-surface rounded-sm px-4 py-2 font-sans text-[15px] leading-[22px] hover:brightness-110 transition-colors border border-brand;
+  }
+  
+  .btn-secondary {
+    @apply bg-transparent text-ink border border-ink rounded-sm px-4 py-2 font-sans text-[15px] leading-[22px] hover:bg-black/5 transition-colors;
+  }
+  
+  .btn-destructive {
+    @apply bg-transparent text-denied border border-denied rounded-sm px-4 py-2 font-sans text-[15px] leading-[22px] hover:bg-denied hover:text-surface transition-colors;
+  }
+
+  /* Stamp Motif */
+  .status-stamp {
+    @apply mono-label border-[1.5px] px-2 py-0.5 inline-block transform -rotate-[2deg];
+    border-radius: 0px 4px 4px 4px; /* Asymmetric corner */
+  }
+  .status-stamp.cleared { @apply border-cleared text-cleared; }
+  .status-stamp.held { @apply border-held text-held; }
+  .status-stamp.denied { @apply border-denied text-denied; }
+  .status-stamp.transit { @apply border-brand text-brand; }
+
+  /* Leader dot rows */
+  .leader-row {
+    @apply flex items-end mb-2;
+  }
+  .leader-label {
+    @apply text-muted font-sans text-[13px] leading-[18px] whitespace-nowrap;
+  }
+  .leader-dots {
+    @apply flex-1 border-b-[1.5px] border-dotted border-line mx-2 translate-y-[-5px];
+  }
+  .leader-value {
+    @apply text-ink font-sans font-medium text-[15px] leading-[22px] text-right max-w-[50%] break-words;
+  }
+
+  /* Ledger Table */
+  .ledger-table {
+    @apply w-full text-[15px] leading-[22px] text-left border-collapse;
+  }
+  .ledger-table th {
+    @apply font-mono text-[12px] leading-[16px] uppercase tracking-[0.04em] text-muted border-b border-line py-2 px-3 font-normal;
+  }
+  .ledger-table td {
+    @apply border-b border-line py-3 px-3 align-top;
+  }
+  .ledger-table tr {
+    @apply relative bg-surface;
+  }
+  /* The left-edge status bar is handled via a span or ::before pseudo element inline where possible */
 }

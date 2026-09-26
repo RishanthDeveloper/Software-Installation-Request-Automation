@@ -17,7 +17,7 @@ export interface Request {
 
 const INITIAL_REQUESTS: Request[] = [
   {
-    id: 'SWR0010042',
+    id: 'SWR-2024-00042',
     softwareName: 'Visual Studio Code',
     requester: 'Ananya Rao',
     department: 'Engineering',
@@ -34,7 +34,7 @@ const INITIAL_REQUESTS: Request[] = [
     ]
   },
   {
-    id: 'SWR0010043',
+    id: 'SWR-2024-00043',
     softwareName: 'Adobe Photoshop',
     requester: 'Ananya Rao',
     department: 'Marketing',

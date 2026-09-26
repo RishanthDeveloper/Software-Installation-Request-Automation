@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useStore } from '../lib/requestsStore';
+import { StatusStamp } from '../components/StatusStamp';
 
 const Approvals = () => {
   const { requests, updateRequestStatus } = useStore();
@@ -10,7 +11,7 @@ const Approvals = () => {
 
   const handleApprove = (id: string, currentStatus: string) => {
     const nextStatus = currentStatus === 'Manager Approval' ? 'IT Approval' : 'In Progress';
-    updateRequestStatus(id, nextStatus, 'Approved via demo portal');
+    updateRequestStatus(id, nextStatus, 'Approved via clearance portal');
   };
 
   const handleReject = (id: string) => {
@@ -21,64 +22,79 @@ const Approvals = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold mb-1">Approvals</h1>
-        <p className="text-muted-foreground">Requests pending your review.</p>
+    <div className="max-w-5xl mx-auto p-4 md:p-6 lg:p-8">
+      <div className="mb-8 border-b border-line pb-4">
+        <h1 className="mb-2">Approvals Ledger</h1>
+        <p className="text-muted text-[15px]">Manifests pending your review and clearance.</p>
       </div>
 
       {pendingApprovals.length === 0 ? (
-        <div className="flat-panel p-8 text-center text-muted-foreground">
+        <div className="flat-panel p-12 text-center text-muted">
           No pending approvals at this time.
         </div>
       ) : (
-        <div className="space-y-4">
-          {pendingApprovals.map(req => (
-            <div key={req.id} className="flat-panel p-6 border-l-4 border-warning">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <div className="text-sm font-mono text-muted-foreground mb-1">{req.id}</div>
-                  <h3 className="font-bold text-lg">{req.softwareName} <span className="text-muted-foreground font-normal text-sm">v{req.version}</span></h3>
-                  <div className="text-sm text-muted-foreground mt-1">
-                    Requested by <strong>{req.requester}</strong> ({req.department})
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm font-medium bg-warning/10 text-warning px-2 py-1 rounded">{req.status}</div>
-                  <div className="text-xs text-muted-foreground mt-2">Required by: {req.requiredBy}</div>
-                </div>
-              </div>
-
-              <div className="bg-muted p-3 rounded-md text-sm mb-4">
-                <span className="font-medium">Justification:</span> {req.justification}
-              </div>
-
-              {rejectingId === req.id ? (
-                <div className="bg-destructive/5 p-4 rounded-md border border-destructive/20">
-                  <label className="block text-sm font-medium text-destructive mb-2">Reason for rejection:</label>
-                  <textarea 
-                    value={rejectReason}
-                    onChange={e => setRejectReason(e.target.value)}
-                    className="w-full px-3 py-2 border border-border rounded-md bg-background focus:ring-2 focus:ring-destructive focus:outline-none mb-3"
-                    rows={2}
-                  />
-                  <div className="flex gap-3 justify-end">
-                    <button onClick={() => setRejectingId(null)} className="px-4 py-2 text-sm font-medium hover:bg-muted rounded-md transition-colors">Cancel</button>
-                    <button onClick={() => handleReject(req.id)} className="bg-destructive text-destructive-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-destructive/90 transition-colors">Confirm Rejection</button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex gap-3">
-                  <button onClick={() => handleApprove(req.id, req.status)} className="bg-success text-success-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-success/90 transition-colors">
-                    Approve
-                  </button>
-                  <button onClick={() => setRejectingId(req.id)} className="bg-destructive/10 text-destructive px-4 py-2 rounded-md text-sm font-medium hover:bg-destructive/20 transition-colors">
-                    Reject
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
+        <div className="flat-panel overflow-hidden w-full">
+          <table className="ledger-table">
+            <thead>
+              <tr>
+                <th className="w-1"></th>
+                <th>Manifest ID</th>
+                <th>Details</th>
+                <th className="text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pendingApprovals.map(req => (
+                <tr key={req.id}>
+                  <td className="p-0 w-1 relative">
+                    <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-held"></div>
+                  </td>
+                  <td>
+                    <div className="font-mono text-ink mb-2">{req.id}</div>
+                    <StatusStamp status={req.status} />
+                  </td>
+                  <td>
+                    <div className="mb-1 font-medium text-ink">{req.softwareName} <span className="text-muted font-normal text-[13px]">v{req.version}</span></div>
+                    <div className="text-[13px] text-muted mb-3">
+                      Origin: <span className="font-medium text-ink">{req.requester}</span> ({req.department})<br/>
+                      Required: <span className="font-mono">{req.requiredBy}</span>
+                    </div>
+                    <div className="leader-row max-w-sm">
+                      <span className="leader-label">Justification</span>
+                      <span className="leader-dots"></span>
+                      <span className="leader-value text-[13px]">{req.justification}</span>
+                    </div>
+                  </td>
+                  <td className="text-right align-middle">
+                    {rejectingId === req.id ? (
+                      <div className="text-left bg-background p-4 border border-line w-64 float-right">
+                        <label className="block text-[13px] font-medium text-denied mb-2">Reason for denial:</label>
+                        <textarea 
+                          value={rejectReason}
+                          onChange={e => setRejectReason(e.target.value)}
+                          className="w-full px-2 py-1 border border-line rounded-none bg-surface focus:ring-1 focus:ring-brand focus:border-brand outline-none mb-3 text-[13px]"
+                          rows={2}
+                        />
+                        <div className="flex gap-2 justify-end">
+                          <button onClick={() => setRejectingId(null)} className="btn-secondary text-[13px] px-2 py-1">Cancel</button>
+                          <button onClick={() => handleReject(req.id)} className="btn-destructive text-[13px] px-2 py-1">Confirm Denial</button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col gap-2 items-end">
+                        <button onClick={() => handleApprove(req.id, req.status)} className="btn-primary w-24 text-center">
+                          Clear
+                        </button>
+                        <button onClick={() => setRejectingId(req.id)} className="btn-destructive w-24 text-center">
+                          Deny
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
