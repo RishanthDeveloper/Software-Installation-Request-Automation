@@ -18,9 +18,9 @@ A full-stack web application simulating an automated Service Catalog workflow. E
 - **Responsive UI**: Tailored with Tailwind CSS for mobile and desktop usage.
 
 ## Architecture
-- **Frontend**: HTML5, Vanilla JavaScript, Tailwind CSS, Chart.js
-- **Backend**: Node.js, Express.js (REST API)
-- **Database**: Local JSON File-based DB (`data.json`) for seamless portability and zero-setup deployment.
+- **Frontend**: Vite, React, TypeScript, Tailwind CSS, React Router (Static SPA deployed to GitHub Pages).
+- **Mock Data Layer**: Client-side `localStorage` store simulating the ServiceNow backend for demo purposes.
+- **ServiceNow Backend**: Update set, Flow Designer logic, SLA definitions, and ACLs (Deployable via XML).
 
 ## Installation & Setup
 
@@ -45,17 +45,16 @@ A full-stack web application simulating an automated Service Catalog workflow. E
 
 ## Demo Workflow Walkthrough
 
-1. **Employee Role**: Open `http://localhost:3000/`. Submit a request for "Visual Studio Code". Observe it enters the "Manager Approval" state. Check your tracking panel to see the simulated email logs.
-2. **Manager Role**: Open `http://localhost:3000/manager.html`. You will see the pending approval. Click "Approve". 
-3. **IT Support Role**: Open `http://localhost:3000/it.html`. Notice the task moved from IT Approval to In Progress. Click "Mark Installed" and then "Close Request".
-4. **Admin/Reporting Role**: Open `http://localhost:3000/dashboard.html` and verify the metrics update dynamically in the charts and scorecards.
-5. **Test Advanced Features**: Try submitting a request for "Adobe Photoshop" with less than 20 characters in the justification—the system will block it. Try submitting a second request for "Visual Studio Code" before the first one closes—the duplicate detection will trigger.
+1. **Employee Role**: Open the live site and log in as "Ananya Rao" (Employee). Navigate to "My Requests" and submit a new request for "Adobe Photoshop". Note the restricted software warning.
+2. **Manager Role**: Log out and log in as "Karthik Iyer" (Manager). Navigate to "Approvals". You will see the pending approval. Click "Approve".
+3. **IT Support Role**: Log out and log in as "Priya Shah" (IT Support). The request has automatically bypassed IT Approval (since Priya is IT) or routed to "In Progress". Navigate to "Fulfillment Queue" and click "Mark Installed".
+4. **Admin/Reporting Role**: Log in as "Vikram Singh" (Admin). Open the Dashboard and verify the metrics update dynamically based on the recent actions.
 
 ## Technologies Used
-- **Node.js & Express**
-- **Vanilla JavaScript (ES6+)**
+- **React (Vite) & TypeScript**
 - **Tailwind CSS**
-- **Chart.js**
+- **Lucide React** (Icons)
+- **ServiceNow** (Backend definition)
 
 ---
 *Created by [RishanthDeveloper](https://github.com/RishanthDeveloper)*

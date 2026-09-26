@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #f8fafc; /* Slate 50 */
+    --foreground: #0f172a; /* Slate 900 */
+    
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+
+    --primary: #0d9488; /* Teal 600 */
+    --primary-foreground: #ffffff;
+
+    --muted: #f1f5f9; /* Slate 100 */
+    --muted-foreground: #64748b; /* Slate 500 */
+
+    --border: #e2e8f0; /* Slate 200 */
+
+    --success: #16a34a; /* Green 600 */
+    --warning: #eab308; /* Yellow 500 */
+    --destructive: #dc2626; /* Red 600 */
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased font-sans;
+  }
+}
+
+@layer utilities {
+  .flat-panel {
+    @apply bg-card border border-border shadow-sm rounded-md;
+  }
+  
+  .left-border-accent {
+    @apply border-l-4 border-l-primary;
+  }
+
+  .mono-label {
+    @apply font-mono text-sm tracking-wider;
+  }
+}
