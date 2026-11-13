@@ -1,2 +1,10 @@
-node_modules
-data.json
+node_modules/
+client/node_modules/
+client/dist/
+data/
+*.db
+*.db-shm
+*.db-wal
+.env
+.DS_Store
+npm-debug.log*

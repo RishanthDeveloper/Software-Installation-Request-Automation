@@ -1,14 +1,30 @@
 {
-  "name": "software-request-app",
-  "version": "1.0.0",
-  "description": "Software Installation Request Automation System",
-  "main": "server.js",
+  "name": "software-request-automation",
+  "version": "2.0.0",
+  "description": "Software installation request and approval system with manager and IT workflow",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "postinstall": "npm --prefix client install",
+    "dev:server": "node --watch server/index.js",
+    "dev:client": "npm --prefix client run dev",
+    "seed": "node server/seed.js",
+    "build": "npm --prefix client run build",
+    "start": "node server/index.js",
+    "test": "node --test tests/api.test.js"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^12.11.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.3",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "zod": "^3.25.76"
   }
 }
